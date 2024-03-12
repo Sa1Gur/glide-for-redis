@@ -91,7 +91,7 @@ jobs:
             - name: Remove the build result
               shell: bash
               if: steps.cache-dotnet.outputs.cache-hit != 'true'
-              run: sudo rm -r ~/.csharp/csharp/tests/bin | sudo rm -r ~/.csharp/csharp/tests/obj
+              run: sudo rm -r ~/csharp/tests/bin | sudo rm -r ~/csharp/tests/obj
 
             - name: Test dotnet ${{ matrix.dotnet }}
               working-directory: ./csharp
