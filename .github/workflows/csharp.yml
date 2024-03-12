@@ -79,8 +79,8 @@ jobs:
               id: cache-dotnet
               with:
                   path: |
-                      ~/.csharp/csharp/tests/bin
-                      ~/.csharp/csharp/tests/obj
+                      ~/csharp/tests/bin
+                      ~/csharp/tests/obj
                   key: ${{ matrix.os }}-build-dotnet
 
             - name: build dotnet
