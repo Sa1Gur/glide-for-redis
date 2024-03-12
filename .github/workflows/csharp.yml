@@ -75,6 +75,24 @@ jobs:
               working-directory: ./csharp
               run: dotnet format --verify-no-changes --verbosity diagnostic
 
+            - uses: actions/cache@v4
+              id: cache-dotnet
+              with:
+                  path: |
+                      ~/.csharp/csharp/tests/bin
+                      ~/.csharp/csharp/tests/obj
+                  key: ${{ matrix.os }}-build-dotnet
+
+            - name: build dotnet
+              working-directory: ./csharp
+              if: steps.cache-dotnet.outputs.cache-hit != 'true'
+              run: dotnet build
+
+            - name: Remove the build result
+              shell: bash
+              if: steps.cache-dotnet.outputs.cache-hit != 'true'
+              run: sudo rm -r ~/.csharp/csharp/tests/bin | sudo rm -r ~/.csharp/csharp/tests/obj
+
             - name: Test dotnet ${{ matrix.dotnet }}
               working-directory: ./csharp
               run: dotnet test --no-build --framework net${{ matrix.dotnet }} "-l:html;LogFileName=TestReport.html" --results-directory . -warnaserror
